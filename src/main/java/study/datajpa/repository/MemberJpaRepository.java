@@ -42,4 +42,16 @@ public class MemberJpaRepository {
         return em.createQuery("select m from Member m", Member.class)
                 .getResultList();
     }
+
+    //Spring Data Jpa 쿼리 메소드 기능 3가지
+    //1. 메소드 이름으로 쿼리 생성
+    //2. 메소드 이름으로 JPA NamedQuery 호출
+    //3. @Query 어노테이션 사용용
+
+    public List<Member> findByUsernameAndAgeGreaterThan(String username, int age) {
+        return em.createQuery("select m from Member m where m.username = :username and m.age > :age")
+                .setParameter("username", username)
+                .setParameter("age", age)
+                .getResultList();
+    }
 }
