@@ -11,6 +11,7 @@ import study.datajpa.entity.Team;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -130,5 +131,18 @@ class MemberRepositoryTest {
         for (Member member : result) {
             System.out.println("member = " + member);
         }
+    }
+
+    @Test
+    public void returnType() {
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("BBB", 20);
+
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> memberList = memberRepository.findListByUsername("AAA"); //jpa 에서 무조건 빈 컬렉션이 나온다
+        Member member = memberRepository.findMemberByUsername("AAA"); //단건, 결과가 없으면 null
+        Optional<Member> memberOptional = memberRepository.findOptionalByUsername("AAA"); //있을수도 없을수도 있으면 옵셔널 쓰는게 맞음
     }
 }
