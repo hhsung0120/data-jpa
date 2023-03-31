@@ -201,10 +201,12 @@ class MemberRepositoryTest {
         //벌크 연산은 영속성 컨텍스트를 무시하고 바로 DB에 꽂음
         int resultCount = memberRepository.bulkAgePlus(20);
         em.flush();
-        em.clear();
 
-        List<Member> reuslt = memberRepository.findListByUsername("member5");
-        Member member5 = reuslt.get(0);
+        //이거 안하려면 bulkAgePlus 에서 clearAutomatically = true 처리
+        //em.clear();
+
+        List<Member> result = memberRepository.findListByUsername("member5");
+        Member member5 = result.get(0);
         System.out.println("member5 = " + member5);
 
 

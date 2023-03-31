@@ -42,9 +42,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             , countQuery = "select count(m.username) from Member m")
     Page<Member> findByAge(int age, Pageable pageable);
 
-
     //Modifying 을 빼면 오류 난다.
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update Member m set m.age = m.age + 1 where m.age >= :age")
     int bulkAgePlus(@Param("age") int age);
 }
