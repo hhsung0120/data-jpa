@@ -134,7 +134,6 @@ class MemberRepositoryTest {
         memberRepository.save(m1);
         memberRepository.save(m2);
 
-
         List<Member> result = memberRepository.findByNames(Arrays.asList("AAA", "BBB"));
         for (Member member : result) {
             System.out.println("member = " + member);
@@ -234,5 +233,22 @@ class MemberRepositoryTest {
             System.out.println("member = " + member);
             System.out.println("member.team = " + member.getTeam().getMembers());
         }
+    }
+
+    @Test
+    public void lock() {
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        //트래픽이 많은 서비스에선 락을 걸면 안됨
+        //돈을 맞추거나 그런 서비스에선 DB 에서 제공하는 락을 거는게 좋음
+        List<Member> members = memberRepository.findLockByUsername("member1");
+    }
+
+    @Test
+    public void callCustom() {
+        List<Member> result = memberRepository.findMemberCustom();
     }
 }
